@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "177490685957",
+    "firebase_url": "https://termproject-e7944.firebaseio.com",
+    "project_id": "termproject-e7944",
+    "storage_bucket": "termproject-e7944.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177490685957:android:de010a2a6edd3c2947ec6c",
+        "android_client_info": {
+          "package_name": "com.example.dogstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177490685957-rb1d5atjih4pai7vliksfb3i1v4n4oej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt7SzLbc9h28kDtwteMSe1RKSl5ujBn_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177490685957-rb1d5atjih4pai7vliksfb3i1v4n4oej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Dogstagram</string>
+    <string name="profile">My Profile</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_signup">Signup</string>
+    <string name="button_apply">Apply</string>
+    <string name="button_delete">Delete account</string>
+
+    <string name="text_signup"><u>No account? Go to Signup</u></string>
+    <string name="text_login"><u>Already have an account? Go to login.</u></string>
+
+    <string name="hint_phone">Phone</string>
+
+</resources>
