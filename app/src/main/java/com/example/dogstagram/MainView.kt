@@ -1,35 +1,61 @@
 package com.example.dogstagram
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_PICK
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.Toast
-import androidx.annotation.NonNull
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+
+import com.fragments.StatusListFragment
+import com.fragments.StatusUpdateFragment
+import androidx.appcompat.widget.Toolbar;
+
+
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.parse.ParseFile
-import com.parse.ParseObject
-import com.parse.ParseUser
-import java.io.ByteArrayOutputStream
-import java.util.*
+import kotlinx.android.synthetic.main.activity_user_list.*
+
+
 
 class MainView : AppCompatActivity() {
 
     private val firebaseDB = FirebaseFirestore.getInstance()
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+
+    private val statusUpdateFragment = StatusUpdateFragment() // this is the cmaera icon
+    private val statusListFragment = StatusListFragment() // this is to see other users updates and such
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user_list)
+
+        setSupportActionBar(toolbar)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+
+        container.adapter = mSectionsPagerAdapter
+        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        resizeTabs()
+        tabs.getTabAt(1)?.select()
+    }
+
+    private fun resizeTabs() {
+        val layout = (tabs.getChildAt(0) as LinearLayout).getChildAt(0) as LinearLayout
+        val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+        layoutParams.weight = 0.4f
+        layout.layoutParams = layoutParams
+    }
 
     val photo: Unit
         get() {
@@ -55,6 +81,25 @@ class MainView : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun startNewActivity(requestCode: Int) {
+        when(requestCode) {
+            23764 -> {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, 23764)
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                23764 -> statusUpdateFragment.storeImage(data?.data)
+            }
+        }
+    }
     private fun onProfile(){
         startActivity(ProfileActivity.newIntent(this)) // it just starts profile activity
     }
@@ -65,35 +110,20 @@ class MainView : AppCompatActivity() {
         finish()
     }
 
-    protected override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_list)
-        title = "User Feed"
-        val listView: ListView = findViewById(R.id.listView)
-        val usernames = ArrayList<String?>()
-        /*val arrayAdapter: ArrayAdapter<*> =
-            ArrayAdapter<Any?>(this, R.layout.simple_list_item_1, usernames)*/
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, usernames)
-        listView.onItemClickListener =
-            OnItemClickListener { _, _, i, _ ->
-                val intent = Intent(applicationContext, UserFeed::class.java)
-                intent.putExtra("username", usernames[i])
-                startActivity(intent)
+    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+        override fun getItem(position: Int): Fragment {
+            return when(position) {
+
+                0 -> statusUpdateFragment
+                1 -> statusListFragment
+                else -> statusListFragment
             }
-       /* val query = ParseUser.getQuery()
-        query.whereNotEqualTo("username", ParseUser.getCurrentUser().username)
-        query.addAscendingOrder("username")
-        query.findInBackground { objects, e ->
-            if (e == null) {
-                if (objects.size > 0) {
-                    for (user in objects) {
-                        usernames.add(user.username)
-                    }
-                    listView.adapter = adapter
-                }
-            } else {
-                e.printStackTrace()
-            }
-        }*/
+
+        }
+
+        override fun getCount(): Int {
+            return 2
+        }
     }
 }

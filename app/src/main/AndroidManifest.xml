@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".StartParse"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -39,8 +38,7 @@
 
         <activity
             android:name=".MainView"
-            android:screenOrientation="portrait" />
-        <activity android:name=".UserFeed" />
+        android:screenOrientation="portrait" />
     </application>
 
 </manifest>

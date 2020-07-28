@@ -12,6 +12,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_profile.*
 import android.app.AlertDialog
 import android.widget.TextView
+import com.example.util.populateImage
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_profile.emailET
 import kotlinx.android.synthetic.main.activity_profile.progressLayout
@@ -48,9 +49,9 @@ class ProfileActivity : AppCompatActivity() {
                 emailET.setText(user?.email, TextView.BufferType.EDITABLE)
                 phoneET.setText(user?.phone, TextView.BufferType.EDITABLE)
                 progressLayout.visibility = View.GONE
-                /*if (imageUrl != null) {
+                if (imageUrl != null) {
                     populateImage(this, user?.imageUrl, photoIV, R.drawable.default_user)
-                }*/
+                }
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
