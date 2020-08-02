@@ -37,4 +37,19 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ChatBubble">
+        <item name="android:textSize">@dimen/chat_text_size</item>
+        <item name="android:minHeight">@dimen/chat_standard_size</item>
+        <item name="android:maxHeight">@dimen/chat_max_size</item>
+    </style>
+
+    <dimen name="chat_text_size">18dp</dimen>
+    <dimen name="chat_standard_size">50dp</dimen>
+    <dimen name="chat_max_size">300dp</dimen>
 </resources>

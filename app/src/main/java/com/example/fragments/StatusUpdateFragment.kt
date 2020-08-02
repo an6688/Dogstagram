@@ -1,4 +1,4 @@
-package com.fragments
+package com.example.fragments
 
 import android.net.Uri
 import android.os.Bundle
@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.dogstagram.MainView
 import com.example.dogstagram.R
-import com.example.util.getTime
-import com.example.util.populateImage
+import com.example.util.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -74,11 +73,11 @@ class StatusUpdateFragment : Fragment() {
     fun onUpdate() {
         progressLayout.visibility = View.VISIBLE
         val map = HashMap<String, Any>()
-        map["status"] = statusET.text.toString()
-        map["statusUrl"] = imageUrl
-        map["statusTime"] = getTime()
+        map[DATA_USER_STATUS] = statusET.text.toString()
+        map[DATA_USER_STATUS_URL] = imageUrl
+        map[DATA_USER_STATUS_TIME] = getTime()
 
-        firebaseDB.collection("users")
+        firebaseDB.collection(DATA_USERS)
             .document(userId!!)
             .update(map)
             .addOnSuccessListener {
@@ -95,6 +94,4 @@ class StatusUpdateFragment : Fragment() {
         Toast.makeText(activity, "Image upload failed. Please try again later", Toast.LENGTH_SHORT).show()
         progressLayout.visibility = View.GONE
     }
-
-
 }

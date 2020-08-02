@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.view.View
 import android.widget.Toast
+import com.example.util.User
 import kotlinx.android.synthetic.main.activity_signup.*
 
 
@@ -89,7 +90,15 @@ class SignUpActivity : AppCompatActivity() {
                         val email = emailET.text.toString()
                         val phone = phoneET.text.toString()
                         val name = nameET.text.toString()
-                        val user = User(email, phone, name, "", "Hello, I'm new", "", "")
+                        val user = User(
+                            email,
+                            phone,
+                            name,
+                            "",
+                            "Hello, I'm new",
+                            "",
+                            ""
+                        )
                         firebaseDB.collection("users").document(firebaseAuth.uid!!).set(user)
                     }
                     progressLayout.visibility = View.GONE

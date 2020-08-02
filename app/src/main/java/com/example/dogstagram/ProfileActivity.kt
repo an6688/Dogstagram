@@ -1,5 +1,6 @@
 package com.example.dogstagram
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +12,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_profile.*
 import android.app.AlertDialog
+import android.net.Uri
 import android.widget.TextView
-import com.example.util.populateImage
-import kotlinx.android.synthetic.main.activity_login.*
+import com.example.util.*
 import kotlinx.android.synthetic.main.activity_profile.emailET
 import kotlinx.android.synthetic.main.activity_profile.progressLayout
 
@@ -34,6 +35,12 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         progressLayout.setOnTouchListener { v, event -> true  }
+
+        photoIV.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_CODE_PHOTO)
+        }
         populateInfo()
     }
 
@@ -44,14 +51,14 @@ class ProfileActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 val user = documentSnapshot.toObject(User::class.java)
-                // imageUrl = user?.imageUrl
+                imageUrl = user?.imageUrl
                 nameET.setText(user?.name, TextView.BufferType.EDITABLE)
                 emailET.setText(user?.email, TextView.BufferType.EDITABLE)
                 phoneET.setText(user?.phone, TextView.BufferType.EDITABLE)
-                progressLayout.visibility = View.GONE
                 if (imageUrl != null) {
                     populateImage(this, user?.imageUrl, photoIV, R.drawable.default_user)
                 }
+                progressLayout.visibility = View.GONE
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
@@ -60,7 +67,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun onApply(view: View) {
-        // progressLayout.visibility = View.GONE
         progressLayout.visibility = View.GONE
         val name = nameET.text.toString()
         val email = emailET.text.toString()
@@ -69,6 +75,7 @@ class ProfileActivity : AppCompatActivity() {
         map["name"] = name
         map["email"] = email
         map["phone"] = phone
+        map["imageUrl"] = imageUrl!!
 
         firebaseDB.collection("users")
             .document(userId!!)
@@ -105,6 +112,46 @@ class ProfileActivity : AppCompatActivity() {
             }
             .show()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PHOTO) {
+            storeImage(data?.data)
+        }
+    }
+
+    private fun storeImage(imageUri: Uri?) {
+        if (imageUri != null) {
+            progressLayout.visibility = View.VISIBLE
+            val filePath = firebaseStorage.child(DATA_IMAGES).child(userId!!)
+            filePath.putFile(imageUri)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
+                    it.storage.downloadUrl.addOnSuccessListener { uri ->
+                        val url = uri.toString()
+                        firebaseDB.collection(DATA_USERS)
+                            .document(userId)
+                            .update(DATA_USER_IMAGE_URL, url)
+
+                        this.imageUrl = url
+                        populateImage(this, this.imageUrl, photoIV, R.drawable.default_user)
+
+                    }.addOnFailureListener{
+                        onUploadFailure()
+                    }
+                }
+                .addOnFailureListener{
+                    onUploadFailure()
+                }
+            progressLayout.visibility = View.GONE
+        }
+    }
+
+    private fun onUploadFailure() {
+        Toast.makeText(this, "Image upload failed. Please try again later.", Toast.LENGTH_SHORT).show()
+        progressLayout.visibility = View.GONE
+    }
+
 
     companion object {
         fun newIntent(context: Context) = Intent(context, ProfileActivity::class.java)
