@@ -1,4 +1,4 @@
-package com.example.fragments
+package com.example.dogstagram
 
 import android.net.Uri
 import android.os.Bundle
@@ -39,7 +39,7 @@ class StatusUpdateFragment : Fragment() {
 
         statusLayout.setOnClickListener {
             if(isAdded) {
-                (activity as MainView).startNewActivity(23764)
+                (activity as MainView).startNewActivity(REQUEST_CODE_PHOTO)
             }
         }
     }
@@ -77,7 +77,7 @@ class StatusUpdateFragment : Fragment() {
         map[DATA_USER_STATUS_URL] = imageUrl
         map[DATA_USER_STATUS_TIME] = getTime()
 
-        firebaseDB.collection(DATA_USERS)
+        firebaseDB.collection("users")
             .document(userId!!)
             .update(map)
             .addOnSuccessListener {

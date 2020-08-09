@@ -1,4 +1,4 @@
-package com.example.fragments
+package com.example.dogstagram
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adapter.ChatsAdapter
-import com.example.dogstagram.ConversationActivity
-import com.example.dogstagram.R
 import com.example.listeners.ChatClickListener
 import com.example.listeners.FailureCallback
 import com.example.util.Chat
 import com.example.util.DATA_CHATS
-import com.example.util.DATA_USERS
 import com.example.util.DATA_USER_CHATS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,7 +53,7 @@ class ChatsFragment : Fragment(), ChatClickListener {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        firebaseDB.collection(DATA_USERS).document(userId!!).addSnapshotListener {
+        firebaseDB.collection("users").document(userId!!).addSnapshotListener {
                 documentSnapshot,
                 firebaseFirestoreException ->
             if(firebaseFirestoreException == null) {
@@ -66,25 +63,29 @@ class ChatsFragment : Fragment(), ChatClickListener {
     }
 
     private fun refreshChats() {
-        firebaseDB.collection(DATA_USERS)
+        firebaseDB.collection("users")
             .document(userId!!)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.contains(DATA_USER_CHATS)) {
-                    val partners = documentSnapshot[DATA_USER_CHATS]
+                if (documentSnapshot.contains("userChats")) {
+                    val partners = documentSnapshot["userChats"]
                     val chats = arrayListOf<String>()
-                    for(partner in (partners as HashMap<String, String>).keys) {
-                        if(partners[partner] != null) {
-                            chats.add(partners[partner]!!)
+                    if (partners != null)
+                    {
+                        for(partner in (partners as HashMap<Any, Any>).keys) {
+                            if(partners[partner] != null) {
+                                chats.add((partners[partner] as String?)!!)
+                            }
                         }
                     }
+
                     chatsAdapter.updateChats(chats)
                 }
             }
     }
 
     fun newChat(partnerId: String) {
-        firebaseDB.collection(DATA_USERS)
+        firebaseDB.collection("users")
             .document(userId!!)
             .get()
             .addOnSuccessListener {userDocument ->
@@ -98,7 +99,7 @@ class ChatsFragment : Fragment(), ChatClickListener {
                     }
                 }
 
-                firebaseDB.collection(DATA_USERS)
+                firebaseDB.collection("users")
                     .document(partnerId)
                     .get()
                     .addOnSuccessListener { partnerDocument ->
@@ -111,8 +112,8 @@ class ChatsFragment : Fragment(), ChatClickListener {
                         val chatParticipants = arrayListOf(userId, partnerId)
                         val chat = Chat(chatParticipants)
                         val chatRef = firebaseDB.collection(DATA_CHATS).document()
-                        val userRef = firebaseDB.collection(DATA_USERS).document(userId)
-                        val partnerRef = firebaseDB.collection(DATA_USERS).document(partnerId)
+                        val userRef = firebaseDB.collection("users").document(userId)
+                        val partnerRef = firebaseDB.collection("users").document(partnerId)
 
                         userChatPartners[partnerId] = chatRef.id
                         partnerChatPartners[userId] = chatRef.id

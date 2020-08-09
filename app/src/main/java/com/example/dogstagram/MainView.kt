@@ -3,10 +3,8 @@ package com.example.dogstagram
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_PICK
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -22,10 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.fragments.ChatsFragment
 
-import com.example.fragments.StatusListFragment
-import com.example.fragments.StatusUpdateFragment
 import com.example.listeners.FailureCallback
 import com.example.util.*
 
@@ -43,8 +38,10 @@ class MainView : AppCompatActivity(), FailureCallback {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
-    private val statusUpdateFragment = StatusUpdateFragment() // this is the cmaera icon
-    private val statusListFragment = StatusListFragment() // this is to see other users updates and such
+    private val statusUpdateFragment =
+        StatusUpdateFragment() // this is the cmaera icon
+    private val statusListFragment =
+        StatusListFragment() // this is to see other users updates and such
     private val chatsFragment = ChatsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,7 +151,7 @@ class MainView : AppCompatActivity(), FailureCallback {
 
     private fun checkNewChatUser(name: String, phone: String) {
         if(!name.isNullOrEmpty() && !phone.isNullOrEmpty()) {
-            firebaseDB.collection(DATA_USERS)
+            firebaseDB.collection("users")
                 .whereEqualTo(DATA_USER_PHONE, phone)
                 .get()
                 .addOnSuccessListener { result ->

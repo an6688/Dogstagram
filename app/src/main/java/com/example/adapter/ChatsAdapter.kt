@@ -72,7 +72,7 @@ class ChatsAdapter(val chats: ArrayList<String>) : RecyclerView.Adapter<ChatsAda
                         for(participant in chatParticipants as ArrayList<String>) {
                             if(participant != null && !participant.equals(userId)) {
                                 partnerId = participant
-                                firebaseDB.collection(DATA_USERS)
+                                firebaseDB.collection("users")
                                     .document(partnerId!!)
                                     .get()
                                     .addOnSuccessListener { document ->

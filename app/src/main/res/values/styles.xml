@@ -4,9 +4,9 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#22c98f</item>
+        <item name="colorPrimaryDark">@color/transparent_grey</item>
+        <item name="colorAccent">#22c98f</item>
     </style>
 
 
@@ -48,8 +48,4 @@
         <item name="android:minHeight">@dimen/chat_standard_size</item>
         <item name="android:maxHeight">@dimen/chat_max_size</item>
     </style>
-
-    <dimen name="chat_text_size">18dp</dimen>
-    <dimen name="chat_standard_size">50dp</dimen>
-    <dimen name="chat_max_size">300dp</dimen>
 </resources>

@@ -29,13 +29,13 @@ class StatusActivity : AppCompatActivity(), ProgressListener {
         statusTV.text = statusElement.status
         populateImage(this, statusElement.statusUrl, statusIV)
 
-        progressBar.max = 100
+        progressBar.max = 500
         TimerTask(this).execute("")
     }
 
     override fun onProgressUpdate(progress: Int) {
         progressBar.progress = progress
-        if(progress == 100) {
+        if(progress == 500) {
             finish()
         }
     }
@@ -44,7 +44,7 @@ class StatusActivity : AppCompatActivity(), ProgressListener {
         override fun doInBackground(vararg params: String?) {
             var i = 0
             val sleep = 20L
-            while (i < 100) {
+            while (i < 500) {
                 i++
                 publishProgress(i)
                 Thread.sleep(sleep)

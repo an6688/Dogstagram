@@ -98,7 +98,7 @@ class ProfileActivity : AppCompatActivity() {
             .setPositiveButton("Yes") { dialog, which ->
                 Toast.makeText(this, "Profile deleted", Toast.LENGTH_SHORT).show()
                 firebaseDB.collection("Users").document(userId!!).delete()
-                firebaseStorage.child("images").child(userId).delete()
+                firebaseStorage.child("Images").child(userId).delete()
                 firebaseAuth.currentUser?.delete()
                     ?.addOnSuccessListener {
                         finish()
@@ -123,13 +123,13 @@ class ProfileActivity : AppCompatActivity() {
     private fun storeImage(imageUri: Uri?) {
         if (imageUri != null) {
             progressLayout.visibility = View.VISIBLE
-            val filePath = firebaseStorage.child(DATA_IMAGES).child(userId!!)
+            val filePath = firebaseStorage.child("Images").child(userId!!)
             filePath.putFile(imageUri)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show()
                     it.storage.downloadUrl.addOnSuccessListener { uri ->
                         val url = uri.toString()
-                        firebaseDB.collection(DATA_USERS)
+                        firebaseDB.collection("users")
                             .document(userId)
                             .update(DATA_USER_IMAGE_URL, url)
 

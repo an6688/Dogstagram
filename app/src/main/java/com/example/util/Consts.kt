@@ -4,7 +4,6 @@ val REQUEST_CODE_PHOTO = 23764
 val PERMISSIONS_REQUEST_READ_CONTACTS = 342
 val REQUEST_NEW_CHAT = 27635
 
-val DATA_USERS = "users"
 val DATA_USER_EMAIL = "email"
 val DATA_USER_PHONE = "phone"
 val DATA_USER_NAME = "name"
@@ -14,7 +13,7 @@ val DATA_USER_STATUS_URL = "statusUrl"
 val DATA_USER_STATUS_TIME = "statusTime"
 val DATA_USER_CHATS = "userChats"
 
-val DATA_IMAGES = "images" // TODO or is it Images?
+//val DATA_IMAGES = "images" // TODO or is it Images?
 
 val DATA_CHATS = "chat"
 val DATA_CHAT_PARTICIPANTS = "chatParticipants"

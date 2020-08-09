@@ -20,11 +20,10 @@
     <string name="text_login"><u>Already have an account? Go to login.</u></string>
 
     <string name="hint_phone">Phone</string>
-    <string name="status_update">Status Update</string>
-    <string name="hello_status_fragment">Hello status fragment</string>
-    <string name="Hello_Status_Update_Fragment">hello status update fragment</string>
+    <string name="status_update">Status</string>
     <string name="hint_status">Status</string>
     <string name="button_update_status">Update status</string>
     <string name="send_button_text">Send</string>
+    <string name="barks">Barks</string>
 
 </resources>

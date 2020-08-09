@@ -10,7 +10,8 @@ data class User(
     val imageUrl: String? = "",
     val status: String? = "",
     val statusUrl: String? = "",
-    val statusTime: String? = ""
+    val statusTime: String? = "",
+    val userChats: HashMap<String, String> = HashMap<String, String>()
 )
 
 data class Contact(
@@ -29,18 +30,18 @@ data class Message(
 )
 
 data class StatusListElement(
-    val userName: String?,
-    val userUrl: String?,
-    val status: String?,
-    val statusUrl: String?,
-    val statusTime: String?
-): Parcelable {
+    val userName: String? = null,
+    val userUrl: String? = null,
+    val status: String? = null,
+    val statusUrl: String? = null,
+    val statusTime: String?  = null
+    ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString()
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
     ) {
     }
 

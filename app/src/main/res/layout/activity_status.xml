@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#000000"
-    tools:context="StatusActivity">
+    tools:context=".StatusActivity">
     <ImageView
         android:id="@+id/statusIV"
         android:layout_width="match_parent"
@@ -15,13 +17,17 @@
 
     <TextView
         android:id="@+id/statusTV"
+        style="@style/Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="375dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
         android:background="@color/transparent_grey"
-        style="@style/Text"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:textColor="@color/colorWhite"/>
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:fontFamily="casual"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
