@@ -1,0 +1,2 @@
+difference between the proposal and final product:
+Changed the use of AWS and MongoDB/Parse server to Firebase. This change was largely due to the fact that Firebase was must simpler to use and integrated with my project a lot better. 
